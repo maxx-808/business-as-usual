@@ -1,0 +1,17 @@
+.nav {
+  font-size: 17px;
+}
+
+.brand {
+  margin-top: 10px;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.navLink {
+  background-color: rgb(78, 78, 78);
+  margin: 3px;
+  color: white !important;
+}
