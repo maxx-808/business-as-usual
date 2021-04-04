@@ -76,4 +76,41 @@ module.exports = {
       res.status(500).json({ msg: err });
     }
   },
+
+  login: async (req, res) => {
+    try {
+      //saving fields from req.body
+      const { email, password } = req.body;
+
+      //checks to ensure user can log into the right account
+
+      //checking an email has been entered
+      if (!email) {
+        res.status(400).json({ msg: "Please enter an email" });
+      }
+
+      //checking if password has been entered
+      if (!password) {
+        res.status(400).json({ msg: "Please enter a password" });
+      }
+
+      //searching for existing account with email entered
+      const account = await Account.findOne({ email: email });
+      if (!account) {
+        res.status(401).json({
+          msg: "The email or password you have entered is incorrect.",
+        });
+      }
+
+      //checking if password matches the accounts password found by email
+      const isMatch = await bcrypt.compare(password, account.password);
+      if (!isMatch) {
+        res
+          .status(401)
+          .msg({ msg: "The email or password you have entered is incorrect." });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  },
 };
