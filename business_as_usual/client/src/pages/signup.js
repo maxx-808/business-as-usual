@@ -1,11 +1,11 @@
 import React, { useState, useContext, useEffect } from "react";
-import UserContext from "../Context/UserContext.js";
+import AccountContext from "../context/accountContext.js";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 
 export const Signup = () => {
   const [form, setForm] = useState();
-  const { userData, setUserData } = useContext(UserContext);
+  const { accountData, setAccountData } = useContext(AccountContext);
   const history = useHistory();
 
   //sets the form in state when inputs change
@@ -40,5 +40,23 @@ export const Signup = () => {
       regErr.classList.add("err");
     }
   };
+
+  useEffect(() => {
+    if (accountData.account) history.push("/");
+  }, [accountData.user, history]);
+
+  //err handling for incorrect password check
+  const passChange = (e) => {
+    const passInput = document.getElementById("inputPass").value;
+    const passCheckInput = document.getElementById("inputCheck").value;
+    const passErr = document.getElementById("passCheck");
+    if (passInput !== passCheckInput) {
+      passErr.classList.remove("hidden");
+    }
+    if (passInput === passCheckInput) {
+      passErr.classList.add("hidden");
+    }
+  };
+
   return <div></div>;
 };
