@@ -133,4 +133,13 @@ module.exports = {
       res.status(500).json({ msg: err });
     }
   },
+
+  //skeleton for function to grab account data if needed for account page later
+  //   getAccount: async (req, res) => {
+  //     try {
+  //       const account = await Account.findOne();
+  //     } catch (err) {
+  //       res.status(500).json({ msg: err });
+  //     }
+  //   },
 };
