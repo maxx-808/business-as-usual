@@ -1,6 +1,7 @@
 const Account = require("../models/accountModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const { default: userContext } = require("../client/src/context/userContext");
 require("dotenv").config();
 
 module.exports = {
@@ -109,8 +110,27 @@ module.exports = {
           .status(401)
           .msg({ msg: "The email or password you have entered is incorrect." });
       }
+
+      //if login successful, auth token is created for user to stay logged in for 24hr
+      const token = jwt.sign(
+        { id: accountContext._id },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: "24h",
+        }
+      );
+
+      res.json({
+        token,
+        account: {
+          id: account._id,
+          email: account.email,
+          phoneNum: account.phoneNum,
+          name: [account.fName, account.lName],
+        },
+      });
     } catch (err) {
-      console.log(err);
+      res.status(500).json({ msg: err });
     }
   },
 };
