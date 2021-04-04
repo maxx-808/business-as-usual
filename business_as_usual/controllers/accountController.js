@@ -55,8 +55,25 @@ module.exports = {
           .status(400)
           .json({ mgs: "The phone number is already in use" });
       }
+
+      //if fields pass all checks on controller and on model, start creating account
+
+      //creating salt (random string) to encrypt account password to safeguard users accounts
+      const salt = await bcrypt.genSalt(20);
+      //hashing (mixing) the salt and password so that it is random string
+      const passwordHash = await bcrypt.hash(password, salt);
+
+      //creating new account model with hashed password
+      const newAcc = new Account({
+        fName,
+        lName,
+        email,
+        phoneNum,
+        password: passwordHash,
+      });
+      const savedAcc = await newAcc.save();
     } catch (err) {
-      console.log(err);
+      res.status(500).json({ msg: err });
     }
   },
 };
