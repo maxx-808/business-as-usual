@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
 const accSchema = new mongoose.Schema({
-  firstName: { type: String, required: true, trim: true },
-  lastName: { type: String, required: true, trim: true },
+  fName: { type: String, required: true, trim: true },
+  lName: { type: String, required: true, trim: true },
   email: {
     type: String,
     required: true,
@@ -10,7 +10,7 @@ const accSchema = new mongoose.Schema({
     unique: true,
     match: [/.+@.+\..+/, "Enter a valid email"],
   },
-  phoneNumber: {
+  phoneNum: {
     type: String,
     required: true,
     validate: {
